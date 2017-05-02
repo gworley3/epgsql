@@ -624,7 +624,8 @@ initializing({?READY_FOR_QUERY, <<Status:8>>}, State) ->
     %% TODO decode dates to now() format
     case lists:keysearch(<<"integer_datetimes">>, 1, Parameters) of
         {value, {_, <<"on">>}}  -> put(datetime_mod, epgsql_idatetime);
-        {value, {_, <<"off">>}} -> put(datetime_mod, epgsql_fdatetime)
+        {value, {_, <<"off">>}} -> put(datetime_mod, epgsql_fdatetime);
+        false -> put(datetime_mod, epgsql_fdatetime)
     end,
     State2 = finish(State#state{handler = on_message,
                                txstatus = Status,
